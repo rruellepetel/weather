@@ -1,0 +1,22 @@
+{
+  "name": "meteo",
+  "authors": [
+    "rruellepetel <ruellepetelromain@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "leaflet": "^1.1.0",
+    "leaflet-ajax": "^2.1.0"
+  }
+}

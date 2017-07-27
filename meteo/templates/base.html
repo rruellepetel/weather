@@ -1,0 +1,79 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Météo</title>
+    <style media="screen">
+        #mapid { height: 800px;}
+
+    </style>
+    <link rel="stylesheet" href="{% static 'leaflet/dist/leaflet.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Météo France</h1>
+        <h2>{{refresh}}</h2>
+        <div id="mapid">
+
+        </div>
+    </div>
+</body>
+<script src="{% static 'leaflet/dist/leaflet.js' %}" charset="utf-8"></script>
+<script src="{% static 'leaflet-ajax/dist/leaflet.ajax.js' %}" charset="utf-8"></script>
+<script src="{% static 'jquery/dist/jquery.js' %}" charset="utf-8"></script>
+<script type="text/javascript">
+    var mymap = L.map('mapid').setView([47.093, 0.747], 6);
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Youpi',
+    maxZoom: 18,
+}).addTo(mymap);
+var geojsonLayer = new L.GeoJSON.AJAX("{% static 'france-geojson/departements.geojson' %}");
+geojsonLayer.addTo(mymap);
+// var geojsonLayera = new L.GeoJSON.AJAX("{% static 'france-geojson/regions/code-insee-postaux-geoflar.geojson' %}");
+// geojsonLayera.addTo(mymap);
+// var geojsonLayeraa = new L.GeoJSON.AJAX("{% static 'france-geojson/code-insee-postaux-geoflar.geojson' %}");
+// geojsonLayeraa.addTo(mymap);
+
+$.ajax({
+
+            dataType: "json",
+
+            url: "https://public.opendatasoft.com/api/records/1.0/search/?dataset=code-insee-postaux-geoflar&rows=-1&refine.statut=Pr%C3%A9fecture",
+
+            success: function(dataset) {
+
+                for (data of dataset.records){
+
+                    L.geoJson(data.geometry).addTo(mymap);
+
+                }
+
+            }
+
+        });
+
+       $.ajax({
+
+            dataType: "json",
+
+            url: "https://public.opendatasoft.com/api/records/1.0/search/?dataset=code-insee-postaux-geoflar&rows=-1&refine.statut=Pr%C3%A9fecture+de+r%C3%A9gion",
+
+            success: function(dataset) {
+
+                for (data of dataset.records){
+
+                    L.geoJson(data.geometry).addTo(mymap);
+
+                }
+
+            }
+
+        });
+
+</script>
+
+</html>
