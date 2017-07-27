@@ -1,4 +1,4 @@
 *.pyc
 *.db
 db.sqlite3
-static/bower_components
+bower_components/
